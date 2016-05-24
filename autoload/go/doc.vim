@@ -12,6 +12,10 @@ if !exists("g:go_doc_options")
     let g:go_doc_options = ""
 endif
 
+if !exists("g:go_doc_browser_host")
+    let g:go_doc_browser_host = "https://godoc.org/"
+endif
+
 " returns the package and exported name. exported name might be empty.
 " ie: fmt and Println
 " ie: github.com/fatih/set and New
@@ -72,7 +76,7 @@ function! go#doc#OpenBrowser(...)
     let exported_name = pkgs[1]
 
     " example url: https://godoc.org/github.com/fatih/set#Set
-    let godoc_url = "https://godoc.org/" . pkg . "#" . exported_name
+    let godoc_url = g:go_doc_browser_host . "/pkg/" . pkg . "#" . exported_name
     call go#tool#OpenBrowser(godoc_url)
 endfunction
 
@@ -111,14 +115,14 @@ function! s:GodocView(newposition, position, content)
     endif
 
     " cap buffer height to 20, but resize it for smaller contents
-    let max_height = 20
-    let content_height = len(split(a:content, "\n"))
-    if content_height > max_height
-        exe 'resize ' . max_height
-    else
-        exe 'resize ' . content_height
-    endif
-
+"    let max_height = 20
+"    let content_height = len(split(a:content, "\n"))
+"    if content_height > max_height
+"        exe 'resize ' . max_height
+"    else
+"        exe 'resize ' . content_height
+"    endif
+"
     setlocal filetype=godoc
     setlocal bufhidden=delete
     setlocal buftype=nofile

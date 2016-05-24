@@ -166,6 +166,13 @@ if err != nil {
 ${0}
 endsnippet
 
+snippet iferr "If with error check" !b
+if ${1:val,} err := ${2:expr}; err != nil {
+	${3:expr}
+}
+${0}
+endsnippet
+
 snippet errh "Error handle and return" !b
 if err != nil {
 	${1}
